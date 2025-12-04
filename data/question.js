@@ -1,15 +1,15 @@
 const questions = [
   {
-    area: "Terraform",
-    difficulty: "Easy",
+    subject: "terraform",
+    difficulty: "easy",
     question: "What is Terraform's primary purpose?",
-    answer: "Terraform automates the infrastructure lifecycle..."
+    answer: "Terraform automates the infrastructure lifecycle, allowing you to define and provision cloud resources using code."
   },
+
   {
-    area: "Terraform",
-    difficulty: "Easy",
+    subject: "terraform",
+    difficulty: "easy",
     question: "Explain the difference between declarative and imperative IaC.",
-    answer: "Declarative defines the desired state..."
+    answer: "Declarative IaC defines the desired end state, while imperative IaC specifies step-by-step instructions to reach that state."
   }
-  // add more...
 ];
