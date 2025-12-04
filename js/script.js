@@ -1,33 +1,44 @@
-function filterQuestions() {
-    const subject = document.getElementById("subjectSelect").value;
-    const difficulty = document.getElementById("difficultySelect").value;
-    const qaSection = document.getElementById("qaSection");
+function renderQuestions() {
+    const area = document.getElementById("areaFilter").value;
+    const diff = document.getElementById("difficultyFilter").value;
+    const search = document.getElementById("searchBox").value.toLowerCase();
+    const container = document.getElementById("questionsContainer");
 
-    qaSection.innerHTML = "";
-
-    if (!subject || !difficulty) {
-        qaSection.innerHTML = "<p>Please select both subject and difficulty.</p>";
-        return;
-    }
+    container.innerHTML = "";
 
     const filtered = questions.filter(q =>
-        q.subject === subject && q.difficulty === difficulty
+        (area === "All" || q.area === area) &&
+        (diff === "All" || q.difficulty === diff) &&
+        q.question.toLowerCase().includes(search)
     );
 
-    if (filtered.length === 0) {
-        qaSection.innerHTML = "<p>No questions found.</p>";
-        return;
-    }
-
-    filtered.forEach(item => {
+    filtered.forEach(q => {
         const card = document.createElement("div");
         card.className = "question-card";
 
         card.innerHTML = `
-            <h3>${item.question}</h3>
-            <p>${item.answer}</p>
+            <h3 onclick="toggleAnswer(this)">${q.question}</h3>
+            <p>${q.answer}</p>
         `;
 
-        qaSection.appendChild(card);
+        container.appendChild(card);
     });
 }
+
+function toggleAnswer(el) {
+    const p = el.nextElementSibling;
+    p.style.display = p.style.display === "block" ? "none" : "block";
+}
+
+document.getElementById("areaFilter").onchange = renderQuestions;
+document.getElementById("difficultyFilter").onchange = renderQuestions;
+document.getElementById("searchBox").onkeyup = renderQuestions;
+
+document.getElementById("resetBtn").onclick = () => {
+    document.getElementById("areaFilter").value = "All";
+    document.getElementById("difficultyFilter").value = "All";
+    document.getElementById("searchBox").value = "";
+    renderQuestions();
+};
+
+renderQuestions();
